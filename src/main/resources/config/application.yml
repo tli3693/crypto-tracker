@@ -128,6 +128,11 @@ spring:
   output:
     ansi:
       console-available: true
+  # For File Upload
+  servlet:
+    multipart:
+      max-file-size: 128KB
+      max-request-size: 128KB
 
 server:
   servlet:
@@ -183,3 +188,9 @@ jhipster:
 # ===================================================================
 
 # application:
+# Coin Market Cap crypto api
+coinmarketcap:
+  url: https://pro-api.coinmarketcap.com/v1/cryptocurrency
+  apikey: xyz
+  common:
+    coins: BTC,ETH,LTC

@@ -179,6 +179,8 @@ describe('User management reducer tests', () => {
         updating: false,
         updateSuccess: false,
         totalItems: 0,
+        coins: null,
+        userPortfolio: null,
       };
       const payload = {
         ...initialState,

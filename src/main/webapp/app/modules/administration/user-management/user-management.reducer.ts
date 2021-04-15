@@ -3,6 +3,8 @@ import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction } 
 
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 import { IUser, defaultValue } from 'app/shared/model/user.model';
+import { ICoin } from 'app/shared/model/coin.model';
+import { IUserPortfolio } from 'app/shared/model/user.portfolio.model';
 
 export const ACTION_TYPES = {
   FETCH_ROLES: 'userManagement/FETCH_ROLES',
@@ -13,6 +15,8 @@ export const ACTION_TYPES = {
   UPDATE_USER: 'userManagement/UPDATE_USER',
   DELETE_USER: 'userManagement/DELETE_USER',
   RESET: 'userManagement/RESET',
+  GET_COINS: 'coins/FETCH_COINS',
+  GET_USER_PORTFOLIO: 'coins/FETCH_USER_PORTFOLIO',
 };
 
 const initialState = {
@@ -24,6 +28,8 @@ const initialState = {
   updating: false,
   updateSuccess: false,
   totalItems: 0,
+  coins: null,
+  userPortfolio: null,
 };
 
 export type UserManagementState = Readonly<typeof initialState>;
@@ -60,6 +66,8 @@ export default (state: UserManagementState = initialState, action): UserManageme
     case FAILURE(ACTION_TYPES.CREATE_USER):
     case FAILURE(ACTION_TYPES.UPDATE_USER):
     case FAILURE(ACTION_TYPES.DELETE_USER):
+    case FAILURE(ACTION_TYPES.GET_COINS):
+    case FAILURE(ACTION_TYPES.GET_USER_PORTFOLIO):
       return {
         ...state,
         loading: false,
@@ -105,6 +113,18 @@ export default (state: UserManagementState = initialState, action): UserManageme
       return {
         ...initialState,
       };
+    case SUCCESS(ACTION_TYPES.GET_COINS):
+      return {
+        ...state,
+        loading: false,
+        coins: action.payload.data,
+      };
+    case SUCCESS(ACTION_TYPES.GET_USER_PORTFOLIO):
+      return {
+        ...state,
+        loading: false,
+        userPortfolio: action.payload.data,
+      };
     default:
       return state;
   }
@@ -112,12 +132,30 @@ export default (state: UserManagementState = initialState, action): UserManageme
 
 const apiUrl = 'api/users';
 const adminUrl = 'api/admin/users';
+const baseUrl = 'api';
+
 // Actions
 export const getUsers: ICrudGetAllAction<IUser> = (page, size, sort) => {
   const requestUrl = `${apiUrl}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
   return {
     type: ACTION_TYPES.FETCH_USERS,
     payload: axios.get<IUser>(requestUrl),
+  };
+};
+
+export const getCoins: ICrudGetAllAction<ICoin> = () => {
+  const requestUrl = `${baseUrl}/coins`;
+  return {
+    type: ACTION_TYPES.GET_COINS,
+    payload: axios.get<ICoin>(requestUrl),
+  };
+};
+
+export const getUserPortfolio: ICrudGetAllAction<IUserPortfolio> = username => {
+  const requestUrl = `${baseUrl}/users/${username}/portfolio`;
+  return {
+    type: ACTION_TYPES.GET_USER_PORTFOLIO,
+    payload: axios.get<IUserPortfolio>(requestUrl),
   };
 };
 

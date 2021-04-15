@@ -117,3 +117,8 @@ jhipster:
 # ===================================================================
 
 # application:
+coinmarketcap:
+  url: https://pro-api.coinmarketcap.com/v1/cryptocurrency
+  apikey:
+  common:
+    coins: BTC,ETH,LTC,ADA
