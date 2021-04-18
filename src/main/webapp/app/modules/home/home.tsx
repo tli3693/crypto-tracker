@@ -1,6 +1,6 @@
 import './home.scss';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 
 import { connect } from 'react-redux';
@@ -29,11 +29,16 @@ export const Home = (props: IHomeProp) => {
     getUserCoins();
   };
 
+  const uploadSelectedFile = () => {};
+
   useEffect(() => {
     if (account && account.login) {
       getUserCoins();
     }
   });
+
+  const fileInputRef = useRef();
+  const filesSelected = () => {};
 
   return (
     <div>
@@ -48,107 +53,114 @@ export const Home = (props: IHomeProp) => {
             </h1>
             <hr />
             <Row>
-              <Col md="12">
-                <div>
-                  <label>
-                    <h3>
-                      <u>Portfolio total</u>
-                    </h3>
-                  </label>
-                  <br />
-                  {portfolio ? (
-                    <span>
-                      <NumberFormat
-                        value={portfolio.portfolioTotal}
-                        displayType={'text'}
-                        thousandSeparator={true}
-                        prefix={'$'}
-                        decimalScale={2}
-                      />{' '}
-                      (
-                      <NumberFormat
-                        value={portfolio.portfolioTotalGainLoss}
-                        displayType={'text'}
-                        thousandSeparator={true}
-                        prefix={(portfolio.portfolioTotalGainLoss > 0 ? '+' : '') + '$'}
-                        decimalScale={2}
-                        className={portfolio.portfolioTotalGainLoss > 0 ? 'text-success' : 'text-danger'}
-                      />
-                      )
-                    </span>
-                  ) : (
-                    <span>Failed to load portfolio</span>
-                  )}
-                </div>
-                <br />
+              <Col md="6">
                 <label>
                   <h3>
-                    <u>Wallet</u>
+                    <u>Portfolio total</u>
                   </h3>
                 </label>
-                <Row>
-                  {portfolio?.userCoins ? (
-                    portfolio.userCoins
-                      .sort((a, b) => (a.quantity * a.currentCost < b.quantity * b.currentCost ? 1 : -1))
-                      .map(userCoin => (
-                        <Col md="6" key={userCoin.coinSymbol}>
-                          <b>
-                            {userCoin.coinSymbol} - {coins ? coins.find(a => a.symbol === userCoin.coinSymbol).name : ''} - Current Price:{' '}
+                <br />
+                {portfolio ? (
+                  <span>
+                    <NumberFormat
+                      value={portfolio.portfolioTotal}
+                      displayType={'text'}
+                      thousandSeparator={true}
+                      prefix={'$'}
+                      decimalScale={2}
+                    />{' '}
+                    (
+                    <NumberFormat
+                      value={portfolio.portfolioTotalGainLoss}
+                      displayType={'text'}
+                      thousandSeparator={true}
+                      prefix={(portfolio.portfolioTotalGainLoss > 0 ? '+' : '') + '$'}
+                      decimalScale={2}
+                      className={portfolio.portfolioTotalGainLoss > 0 ? 'text-success' : 'text-danger'}
+                    />
+                    )
+                  </span>
+                ) : (
+                  <span>Failed to load portfolio</span>
+                )}
+              </Col>
+              <Col md="6">
+                <div className="file-select">
+                  <h4>Upload CSV</h4>
+                  <input ref={fileInputRef} className="file-input" type="file" onChange={filesSelected} />
+                  <button className="btn btn-primary" onClick={uploadSelectedFile}>
+                    <FontAwesomeIcon icon="file"></FontAwesomeIcon>Upload
+                  </button>
+                </div>
+              </Col>
+            </Row>
+            <hr />
+            <label>
+              <h3>
+                <u>Wallet</u>
+              </h3>
+            </label>
+            <Row>
+              {portfolio?.userCoins ? (
+                portfolio.userCoins
+                  .sort((a, b) => (a.quantity * a.currentCost < b.quantity * b.currentCost ? 1 : -1))
+                  .map(userCoin => (
+                    <Col md="6" key={userCoin.coinSymbol}>
+                      <b>
+                        {userCoin.coinSymbol} - {coins ? coins.find(a => a.symbol === userCoin.coinSymbol).name : ''} - Current Price:{' '}
+                        <NumberFormat
+                          value={coins ? coins.find(a => a.symbol === userCoin.coinSymbol).cost : ''}
+                          displayType={'text'}
+                          thousandSeparator={true}
+                          prefix={'$'}
+                          decimalScale={2}
+                        />
+                      </b>
+                      <hr />
+                      <ul>
+                        <li>
+                          <span>Total: </span>
+                          <span>
                             <NumberFormat
-                              value={coins ? coins.find(a => a.symbol === userCoin.coinSymbol).cost : ''}
+                              value={userCoin.quantity * userCoin.currentCost}
                               displayType={'text'}
                               thousandSeparator={true}
                               prefix={'$'}
                               decimalScale={2}
-                            />
-                          </b>
-                          <hr />
-                          <ul>
-                            <li>
-                              <span>Total: </span>
-                              <span>
-                                <NumberFormat
-                                  value={userCoin.quantity * userCoin.currentCost}
-                                  displayType={'text'}
-                                  thousandSeparator={true}
-                                  prefix={'$'}
-                                  decimalScale={2}
-                                />{' '}
-                              </span>
-                              (
-                              <NumberFormat
-                                value={userCoin.gainLoss}
-                                displayType={'text'}
-                                thousandSeparator={true}
-                                prefix={(userCoin.gainLoss > 0 ? '+' : '') + '$'}
-                                decimalScale={2}
-                                className={userCoin.gainLoss > 0 ? 'text-success' : 'text-danger'}
-                              />
-                              )
-                            </li>
-                            <li>
-                              <span>Quantity: </span>
-                              <NumberFormat value={userCoin.quantity} displayType={'text'} thousandSeparator={true} decimalScale={5} />
-                            </li>
-                            <li>
-                              <span>Average Cost: </span>
-                              <NumberFormat
-                                value={userCoin.averageCost}
-                                displayType={'text'}
-                                thousandSeparator={true}
-                                prefix={'$'}
-                                decimalScale={2}
-                              />
-                            </li>
-                          </ul>
-                          <br />
-                        </Col>
-                      ))
-                  ) : (
-                    <span>Failed to load your coins</span>
-                  )}
-                </Row>
-              </Col>
+                            />{' '}
+                          </span>
+                          (
+                          <NumberFormat
+                            value={userCoin.gainLoss}
+                            displayType={'text'}
+                            thousandSeparator={true}
+                            prefix={(userCoin.gainLoss > 0 ? '+' : '') + '$'}
+                            decimalScale={2}
+                            className={userCoin.gainLoss > 0 ? 'text-success' : 'text-danger'}
+                          />
+                          )
+                        </li>
+                        <li>
+                          <span>Quantity: </span>
+                          <NumberFormat value={userCoin.quantity} displayType={'text'} thousandSeparator={true} decimalScale={5} />
+                        </li>
+                        <li>
+                          <span>Average Cost: </span>
+                          <NumberFormat
+                            value={userCoin.averageCost}
+                            displayType={'text'}
+                            thousandSeparator={true}
+                            prefix={'$'}
+                            decimalScale={2}
+                          />
+                        </li>
+                      </ul>
+                      <br />
+                    </Col>
+                  ))
+              ) : (
+                <span>Failed to load your coins</span>
+              )}
             </Row>
           </div>
         </div>

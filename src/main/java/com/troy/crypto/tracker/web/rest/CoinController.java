@@ -2,13 +2,13 @@ package com.troy.crypto.tracker.web.rest;
 
 import com.troy.crypto.tracker.domain.Coin;
 import com.troy.crypto.tracker.domain.UserCoin;
-import com.troy.crypto.tracker.service.*;
+import com.troy.crypto.tracker.service.CoinService;
+import com.troy.crypto.tracker.service.CryptoService;
+import com.troy.crypto.tracker.service.UserCoinService;
 import com.troy.crypto.tracker.service.cmc.CMCResponse;
 import com.troy.crypto.tracker.service.dto.UserCoinDTO;
 import com.troy.crypto.tracker.service.dto.UserPortfolio;
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.ParseException;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,24 +40,17 @@ public class CoinController {
 
     @GetMapping("/coins/{symbol}")
     public Coin getCoinBySymbol(@PathVariable String symbol) {
-        System.out.println("Looking for coin: " + symbol);
-        Coin coin = coinService.findBySymbol(symbol);
-        System.out.println(coin);
-        return coin;
+        return coinService.findBySymbol(symbol);
     }
 
     @GetMapping("/coins")
     public List<Coin> getCoins() {
         refreshCommonListings();
-        List<Coin> coins = coinService.findAll();
-        System.out.println(coins);
-        return coins;
+        return coinService.findAll();
     }
 
     @GetMapping("/coins/listings/latest")
     public String getLatestListings() {
-        CMCResponse commonListingsResponse = cryptoService.getCommonListings();
-        System.out.println(commonListingsResponse);
         return cryptoService.getLatestListings();
     }
 
@@ -70,9 +63,7 @@ public class CoinController {
 
     @GetMapping("/users/{username}/coins")
     public List<UserCoin> getALlUserCoins(@PathVariable String username) {
-        List<UserCoin> coins = userCoinService.findByUsername(username);
-        System.out.println(coins);
-        return coins;
+        return userCoinService.findByUsername(username);
     }
 
     @GetMapping("/users/{username}/portfolio")
@@ -94,9 +85,6 @@ public class CoinController {
 
     @GetMapping("/users/{username}/coins/{symbol}")
     public List<UserCoin> getUserCoinBySymbol(@PathVariable String username, @PathVariable String symbol) {
-        System.out.println("Beginning of getUserCoinBySymbol");
-        List<UserCoin> coins = userCoinService.findByUsernameAndCoinSymbol(username, symbol);
-        System.out.println(coins);
-        return coins;
+        return userCoinService.findByUsernameAndCoinSymbol(username, symbol);
     }
 }
