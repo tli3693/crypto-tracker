@@ -181,6 +181,7 @@ describe('User management reducer tests', () => {
         totalItems: 0,
         coins: null,
         userPortfolio: null,
+        coinbaseProFileName: null,
       };
       const payload = {
         ...initialState,

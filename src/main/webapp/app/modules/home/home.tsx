@@ -1,11 +1,11 @@
 import './home.scss';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { Row, Col, Alert } from 'reactstrap';
-import { getCoins, getUserPortfolio } from '../administration/user-management/user-management.reducer';
+import { getCoins, getUserPortfolio, uploadCoinbaseProFile } from '../administration/user-management/user-management.reducer';
 import NumberFormat from 'react-number-format';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -13,6 +13,7 @@ export interface IHomeProp extends StateProps, DispatchProps, RouteComponentProp
 
 export const Home = (props: IHomeProp) => {
   let { coins, portfolio } = props;
+  let fileToUpload = null;
   const { account } = props;
 
   const getUserCoins = () => {
@@ -29,16 +30,19 @@ export const Home = (props: IHomeProp) => {
     getUserCoins();
   };
 
-  const uploadSelectedFile = () => {};
-
   useEffect(() => {
     if (account && account.login) {
       getUserCoins();
     }
   });
 
-  const fileInputRef = useRef();
-  const filesSelected = () => {};
+  const filesSelected = (e: any) => {
+    fileToUpload = e.target.files[0];
+  };
+
+  const uploadSelectedFile = () => {
+    props.uploadCoinbaseProFile(fileToUpload);
+  };
 
   return (
     <div>
@@ -87,7 +91,7 @@ export const Home = (props: IHomeProp) => {
               <Col md="6">
                 <div className="file-select">
                   <h4>Upload CSV</h4>
-                  <input ref={fileInputRef} className="file-input" type="file" onChange={filesSelected} />
+                  <input className="file-input" type="file" onChange={filesSelected} />
                   <button className="btn btn-primary" onClick={uploadSelectedFile}>
                     <FontAwesomeIcon icon="file"></FontAwesomeIcon>Upload
                   </button>
@@ -247,9 +251,10 @@ const mapStateToProps = storeState => ({
   isAuthenticated: storeState.authentication.isAuthenticated,
   coins: storeState.userManagement.coins,
   portfolio: storeState.userManagement.userPortfolio,
+  coinbaseProFileName: storeState.userManagement.coinbaseProFileName,
 });
 
-const mapDispatchToProps = { getCoins, getUserPortfolio };
+const mapDispatchToProps = { getCoins, getUserPortfolio, uploadCoinbaseProFile };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;

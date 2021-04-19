@@ -17,6 +17,7 @@ export const ACTION_TYPES = {
   RESET: 'userManagement/RESET',
   GET_COINS: 'coins/FETCH_COINS',
   GET_USER_PORTFOLIO: 'coins/FETCH_USER_PORTFOLIO',
+  UPLOAD_FILE_COINBASE_PRO: 'coins/UPLOAD_FILE_COINBASE_PRO',
 };
 
 const initialState = {
@@ -30,6 +31,7 @@ const initialState = {
   totalItems: 0,
   coins: null,
   userPortfolio: null,
+  coinbaseProFileName: null,
 };
 
 export type UserManagementState = Readonly<typeof initialState>;
@@ -68,6 +70,7 @@ export default (state: UserManagementState = initialState, action): UserManageme
     case FAILURE(ACTION_TYPES.DELETE_USER):
     case FAILURE(ACTION_TYPES.GET_COINS):
     case FAILURE(ACTION_TYPES.GET_USER_PORTFOLIO):
+    case FAILURE(ACTION_TYPES.UPLOAD_FILE_COINBASE_PRO):
       return {
         ...state,
         loading: false,
@@ -125,6 +128,12 @@ export default (state: UserManagementState = initialState, action): UserManageme
         loading: false,
         userPortfolio: action.payload.data,
       };
+    case SUCCESS(ACTION_TYPES.UPLOAD_FILE_COINBASE_PRO):
+      return {
+        ...state,
+        loading: false,
+        coinbaseProFileName: action.payload.data,
+      };
     default:
       return state;
   }
@@ -157,6 +166,18 @@ export const getUserPortfolio: ICrudGetAllAction<IUserPortfolio> = username => {
     type: ACTION_TYPES.GET_USER_PORTFOLIO,
     payload: axios.get<IUserPortfolio>(requestUrl),
   };
+};
+
+export const uploadCoinbaseProFile: ICrudPutAction<File> = fileToUpload => async dispatch => {
+  const requestUrl = `${baseUrl}/upload/coinbase-pro`;
+  const formData = new FormData();
+  formData.append('name', fileToUpload.name);
+  formData.append('file', fileToUpload);
+  const result = await dispatch({
+    type: ACTION_TYPES.UPLOAD_FILE_COINBASE_PRO,
+    payload: axios.post<File>(requestUrl, formData),
+  });
+  return result;
 };
 
 export const getUsersAsAdmin: ICrudGetAllAction<IUser> = (page, size, sort) => {
