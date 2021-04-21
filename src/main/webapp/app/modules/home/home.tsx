@@ -41,7 +41,7 @@ export const Home = (props: IHomeProp) => {
   };
 
   const uploadSelectedFile = () => {
-    props.uploadCoinbaseProFile(fileToUpload);
+    props.uploadCoinbaseProFile(fileToUpload, account.login);
   };
 
   return (

@@ -61,21 +61,21 @@ public class FileUploadController {
             .body(file);
     }
 
-    @PostMapping("/upload/coinbase-pro")
-    public ResponseEntity<String> handleFileUploadCBPro(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes)
+    @PostMapping("/users/{username}/upload/coinbase-pro")
+    public ResponseEntity<String> handleFileUploadCBPro(@RequestParam("file") MultipartFile file, @PathVariable String username)
         throws IOException, ParseException {
         String fileName = file.getOriginalFilename();
         storageService.store(file);
-        userCoinService.uploadCoinbaseProCSV(fileName);
+        userCoinService.uploadCoinbaseProCSV(fileName, username);
         return new ResponseEntity<>("You successfully uploaded " + fileName + "!", HttpStatus.OK);
     }
 
-    @PostMapping("/upload/coinbase")
-    public ResponseEntity<String> handleFileUploadCB(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes)
+    @PostMapping("/users/{username}/upload/coinbase")
+    public ResponseEntity<String> handleFileUploadCB(@RequestParam("file") MultipartFile file, @PathVariable String username)
         throws IOException, ParseException {
         String fileName = file.getOriginalFilename();
         storageService.store(file);
-        userCoinService.uploadCoinbaseCSV(fileName);
+        userCoinService.uploadCoinbaseCSV(fileName, username);
         return new ResponseEntity<>("You successfully uploaded " + fileName + "!", HttpStatus.OK);
     }
 

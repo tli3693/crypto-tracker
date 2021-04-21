@@ -14,6 +14,7 @@ public class CoinbaseCSVRecord {
     private BigDecimal total;
     private BigDecimal fees;
     private String notes;
+    private String username;
 
     public CoinbaseCSVRecord(
         Date date,
@@ -24,7 +25,8 @@ public class CoinbaseCSVRecord {
         BigDecimal subtotal,
         BigDecimal total,
         BigDecimal fees,
-        String notes
+        String notes,
+        String username
     ) {
         this.date = date;
         this.transactionType = transactionType;
@@ -35,6 +37,7 @@ public class CoinbaseCSVRecord {
         this.total = total;
         this.fees = fees;
         this.notes = notes;
+        this.username = username;
     }
 
     public Date getDate() {
@@ -136,5 +139,13 @@ public class CoinbaseCSVRecord {
             '\'' +
             '}'
         );
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

@@ -16,6 +16,7 @@ public class CoinbaseProCSVRecord {
     private BigDecimal fee;
     private BigDecimal total;
     private String currency;
+    private String username;
 
     public CoinbaseProCSVRecord(
         String portfolio,
@@ -28,7 +29,8 @@ public class CoinbaseProCSVRecord {
         BigDecimal price,
         BigDecimal fee,
         BigDecimal total,
-        String currency
+        String currency,
+        String username
     ) {
         this.portfolio = portfolio;
         this.tradeId = tradeId;
@@ -41,6 +43,7 @@ public class CoinbaseProCSVRecord {
         this.fee = fee;
         this.total = total;
         this.currency = currency;
+        this.username = username;
     }
 
     public String getPortfolio() {
@@ -170,5 +173,13 @@ public class CoinbaseProCSVRecord {
             '\'' +
             '}'
         );
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

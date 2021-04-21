@@ -27,7 +27,7 @@ public class CSVService {
         this.storageService = storageService;
     }
 
-    public List<CoinbaseProCSVRecord> parseCoinbaseProCSV(String fileName) throws IOException, ParseException {
+    public List<CoinbaseProCSVRecord> parseCoinbaseProCSV(String fileName, String username) throws IOException, ParseException {
         List<CoinbaseProCSVRecord> coinbaseProCSVRecords = new ArrayList<>();
         Reader in = new FileReader(storageService.loadAsResource(fileName).getFile());
         Iterable<CSVRecord> records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
@@ -43,14 +43,15 @@ public class CSVService {
                 new BigDecimal(record.get("price")),
                 new BigDecimal(record.get("fee")),
                 new BigDecimal(record.get("total")).negate(),
-                record.get("price/fee/total unit")
+                record.get("price/fee/total unit"),
+                username
             );
             coinbaseProCSVRecords.add(coinbaseProCSVRecord);
         }
         return coinbaseProCSVRecords;
     }
 
-    public List<CoinbaseCSVRecord> parseCoinbaseCSV(String fileName) throws IOException, ParseException {
+    public List<CoinbaseCSVRecord> parseCoinbaseCSV(String fileName, String username) throws IOException, ParseException {
         List<CoinbaseCSVRecord> coinbaseCSVRecords = new ArrayList<>();
         Reader in = new FileReader(storageService.loadAsResource(fileName).getFile());
         Iterable<CSVRecord> records = CSVFormat.RFC4180
@@ -83,7 +84,8 @@ public class CSVService {
                     record.get("USD Total (inclusive of fees)").isEmpty() ? "0.00" : record.get("USD Total (inclusive of fees)")
                 ),
                 new BigDecimal(record.get("USD Fees").isEmpty() ? "0.00" : record.get("USD Fees")),
-                record.get("Notes")
+                record.get("Notes"),
+                username
             );
             coinbaseCSVRecords.add(coinbaseCSVRecord);
         }

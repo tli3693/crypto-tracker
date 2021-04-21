@@ -10,5 +10,5 @@ public interface UserCoinRepository extends MongoRepository<UserCoin, String> {
     List<UserCoin> findByUsername(String username);
     List<UserCoin> findByUsernameAndCoinSymbol(String username, String coinSymbol);
 
-    UserCoin findByTradeId(String tradeId);
+    UserCoin findByTradeIdAndUsername(String tradeId, String username);
 }

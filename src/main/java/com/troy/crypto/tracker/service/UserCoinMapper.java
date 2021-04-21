@@ -19,7 +19,6 @@ public interface UserCoinMapper {
             @Mapping(target = "cost", source = "total"),
             @Mapping(target = "quantity", source = "size"),
             @Mapping(target = "actionDate", source = "createdAt"),
-            @Mapping(target = "username", constant = "testing12345"), // TODO: update per user
             @Mapping(target = "action", source = "side"),
         }
     )
@@ -30,7 +29,6 @@ public interface UserCoinMapper {
             @Mapping(target = "coinSymbol", source = "asset"),
             @Mapping(target = "cost", source = "total"),
             @Mapping(target = "actionDate", source = "date"),
-            @Mapping(target = "username", constant = "testing12345"), // TODO: update per user
             @Mapping(target = "action", source = "transactionType"),
             @Mapping(target = "tradeId", source = "notes"),
         }

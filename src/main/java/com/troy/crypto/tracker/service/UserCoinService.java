@@ -73,11 +73,11 @@ public class UserCoinService {
         return userCoinRepository.findByUsernameAndCoinSymbol(username, symbol);
     }
 
-    public List<UserCoin> uploadCoinbaseProCSV(String fileName) throws IOException, ParseException {
-        List<CoinbaseProCSVRecord> coinbaseProCSVRecords = csvService.parseCoinbaseProCSV(fileName);
+    public List<UserCoin> uploadCoinbaseProCSV(String fileName, String username) throws IOException, ParseException {
+        List<CoinbaseProCSVRecord> coinbaseProCSVRecords = csvService.parseCoinbaseProCSV(fileName, username);
         List<UserCoin> userCoins = userCoinMapper.toDataModelList(coinbaseProCSVRecords);
         for (UserCoin userCoin : userCoins) {
-            UserCoin userCoinByTradeId = userCoinRepository.findByTradeId(userCoin.getTradeId());
+            UserCoin userCoinByTradeId = userCoinRepository.findByTradeIdAndUsername(userCoin.getTradeId(), username);
             if (userCoinByTradeId == null) {
                 userCoinRepository.save(userCoin);
             }
@@ -85,16 +85,16 @@ public class UserCoinService {
         return userCoins;
     }
 
-    public List<UserCoin> uploadCoinbaseCSV(String fileName) throws IOException, ParseException {
-        List<CoinbaseCSVRecord> coinbaseProCSVRecords = csvService.parseCoinbaseCSV(fileName);
+    public List<UserCoin> uploadCoinbaseCSV(String fileName, String username) throws IOException, ParseException {
+        List<CoinbaseCSVRecord> coinbaseProCSVRecords = csvService.parseCoinbaseCSV(fileName, username);
         List<UserCoin> userCoins = userCoinMapper.toCoinbaseCSVRecordList(coinbaseProCSVRecords);
-        saveCoins(userCoins);
+        saveCoins(userCoins, username);
         return userCoins;
     }
 
-    private void saveCoins(List<UserCoin> userCoins) {
+    private void saveCoins(List<UserCoin> userCoins, String username) {
         for (UserCoin userCoin : userCoins) {
-            UserCoin userCoinByTradeId = userCoinRepository.findByTradeId(userCoin.getTradeId());
+            UserCoin userCoinByTradeId = userCoinRepository.findByTradeIdAndUsername(userCoin.getTradeId(), username);
             if (userCoinByTradeId == null) {
                 userCoinRepository.save(userCoin);
             }

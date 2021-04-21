@@ -168,8 +168,8 @@ export const getUserPortfolio: ICrudGetAllAction<IUserPortfolio> = username => {
   };
 };
 
-export const uploadCoinbaseProFile: ICrudPutAction<File> = fileToUpload => async dispatch => {
-  const requestUrl = `${baseUrl}/upload/coinbase-pro`;
+export const uploadCoinbaseProFile: ICrudPutAction<File> = (fileToUpload, username) => async dispatch => {
+  const requestUrl = `${baseUrl}/users/${username}/upload/coinbase-pro`;
   const formData = new FormData();
   formData.append('name', fileToUpload.name);
   formData.append('file', fileToUpload);
