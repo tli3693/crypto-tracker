@@ -1,9 +1,18 @@
+language: node_js
+node_js:
+- '14.0'
+
 sudo: required
 
 services:
   - docker
 env:
   - DOCKER_COMPOSE_VERSION=1.29.0
+cache:
+  directories:
+    - node
+    - node_modules
+    - $HOME/.m2
 
 before_install:
 - sudo rm /usr/local/bin/docker-compose
@@ -13,6 +22,5 @@ before_install:
 - chmod +x mvnw
 
 script:
-- ./mvnw -Pprod verify jib:dockerBuild
+- ./mvnw -Pprod verify jib:dockerBuild -DskipTests
 - docker-compose -f src/main/docker/app.yml up -d
-
