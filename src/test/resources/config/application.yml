@@ -13,13 +13,6 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
-eureka:
-  client:
-    enabled: false
-  instance:
-    appname: cryptoTracker
-    instanceId: cryptoTracker:${spring.application.instance-id:${random.value}}
-
 mongock:
   change-logs-scan-package:
     - com.troy.crypto.tracker.config.dbmigrations
@@ -31,9 +24,6 @@ mongock:
 spring:
   application:
     name: cryptoTracker
-  cloud:
-    config:
-      enabled: false
   jackson:
     serialization:
       write-durations-as-timestamps: false

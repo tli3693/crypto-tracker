@@ -14,30 +14,6 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
-eureka:
-  client:
-    enabled: true
-    healthcheck:
-      enabled: true
-    fetch-registry: true
-    register-with-eureka: true
-    instance-info-replication-interval-seconds: 10
-    registry-fetch-interval-seconds: 10
-  instance:
-    appname: cryptotracker
-    instanceId: cryptotracker:${spring.application.instance-id:${random.value}}
-    lease-renewal-interval-in-seconds: 5
-    lease-expiration-duration-in-seconds: 10
-    status-page-url-path: ${management.endpoints.web.base-path}/info
-    health-check-url-path: ${management.endpoints.web.base-path}/health
-    metadata-map:
-      zone: primary # This is needed for the load balancer
-      profile: ${spring.profiles.active}
-      version: #project.version#
-      git-version: ${git.commit.id.describe:}
-      git-commit: ${git.commit.id.abbrev:}
-      git-branch: ${git.branch:}
-      context-path: ${server.servlet.context-path:}
 management:
   endpoints:
     web:
@@ -128,11 +104,6 @@ spring:
   output:
     ansi:
       console-available: true
-  # For File Upload
-  servlet:
-    multipart:
-      max-file-size: 128KB
-      max-request-size: 128KB
 
 server:
   servlet:
@@ -188,9 +159,8 @@ jhipster:
 # ===================================================================
 
 # application:
-# Coin Market Cap crypto api
 coinmarketcap:
   url: https://pro-api.coinmarketcap.com/v1/cryptocurrency
-  apikey: xyz
+  apikey: xxx
   common:
-    coins: BTC,ETH,LTC
+    coins: BTC,ETH,LTC,ADA
