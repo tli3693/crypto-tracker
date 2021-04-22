@@ -13,9 +13,11 @@ import org.springframework.stereotype.Service;
 public class CoinService {
 
     private final CoinRepository coinRepository;
+    private final UserCoinMapper userCoinMapper;
 
-    public CoinService(CoinRepository coinRepository) {
+    public CoinService(CoinRepository coinRepository, UserCoinMapper userCoinMapper) {
         this.coinRepository = coinRepository;
+        this.userCoinMapper = userCoinMapper;
     }
 
     public void createTestCoins() {
@@ -47,10 +49,11 @@ public class CoinService {
     private void saveOrUpdate(CMCCoin cmcCoin) {
         Coin coin = coinRepository.findBySymbol(cmcCoin.getSymbol());
         if (coin == null) {
-            coin = new Coin(cmcCoin.getName(), cmcCoin.getSymbol(), new BigDecimal(cmcCoin.getQuote().getUSD().getPrice()));
+            coin = userCoinMapper.toCoin(cmcCoin);
         }
         coin.setCost(new BigDecimal(cmcCoin.getQuote().getUSD().getPrice()));
-        coin.setLastUpdated(new Date());
+        coin.setPercent_change_24h(new BigDecimal(cmcCoin.getQuote().getUSD().getPercent_change_24h()));
+        coin.setLastUpdated(cmcCoin.getLast_updated());
         coinRepository.save(coin);
     }
 }

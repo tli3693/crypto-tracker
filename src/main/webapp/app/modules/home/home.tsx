@@ -118,7 +118,22 @@ export const Home = (props: IHomeProp) => {
                           thousandSeparator={true}
                           prefix={'$'}
                           decimalScale={2}
+                        />{' '}
+                        (
+                        <NumberFormat
+                          value={coins ? coins.find(a => a.symbol === userCoin.coinSymbol).percent_change_24h : ''}
+                          displayType={'text'}
+                          thousandSeparator={true}
+                          prefix={coins && (coins.find(a => a.symbol === userCoin.coinSymbol).percent_change_24h > 0 ? '+' : '') + '$'}
+                          suffix={'%'}
+                          decimalScale={2}
+                          className={
+                            coins && coins.find(a => a.symbol === userCoin.coinSymbol).percent_change_24h > 0
+                              ? 'text-success'
+                              : 'text-danger'
+                          }
                         />
+                        )
                       </b>
                       <hr />
                       <ul>

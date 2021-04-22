@@ -15,6 +15,17 @@ public class Coin {
     private String symbol;
     private BigDecimal cost;
     private Date lastUpdated;
+    private BigDecimal percent_change_24h;
+
+    public Coin() {}
+
+    public Coin(String name, String symbol, BigDecimal cost, Date lastUpdated, BigDecimal percent_change_24h) {
+        this.name = name;
+        this.symbol = symbol;
+        this.cost = cost;
+        this.lastUpdated = lastUpdated;
+        this.percent_change_24h = percent_change_24h;
+    }
 
     public Coin(String name, String symbol, BigDecimal cost) {
         this.name = name;
@@ -65,5 +76,13 @@ public class Coin {
 
     public void setLastUpdated(Date lastUpdated) {
         this.lastUpdated = lastUpdated;
+    }
+
+    public BigDecimal getPercent_change_24h() {
+        return percent_change_24h;
+    }
+
+    public void setPercent_change_24h(BigDecimal percent_change_24h) {
+        this.percent_change_24h = percent_change_24h;
     }
 }
