@@ -93,7 +93,7 @@ export const Home = (props: IHomeProp) => {
                   <h4>Upload CSV</h4>
                   <input className="file-input" type="file" onChange={filesSelected} />
                   <button className="btn btn-primary" onClick={uploadSelectedFile}>
-                    <FontAwesomeIcon icon="file"></FontAwesomeIcon>Upload
+                    <FontAwesomeIcon icon="upload"></FontAwesomeIcon> Upload
                   </button>
                 </div>
               </Col>

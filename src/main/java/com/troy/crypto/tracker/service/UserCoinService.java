@@ -60,8 +60,9 @@ public class UserCoinService {
             BigDecimal total = userCoinList.stream().map(UserCoin::getCost).reduce(new BigDecimal("0"), BigDecimal::add);
             userCoinDTO.setTotal(total);
             BigDecimal quantity = userCoinList.stream().map(UserCoin::getQuantity).reduce(new BigDecimal("0"), BigDecimal::add);
+            BigDecimal feesTotal = userCoinList.stream().map(UserCoin::getFee).reduce(new BigDecimal("0"), BigDecimal::add);
             userCoinDTO.setQuantity(quantity);
-            userCoinDTO.setAverageCost(total.divide(quantity, 2, RoundingMode.FLOOR));
+            userCoinDTO.setAverageCost((total.subtract(feesTotal)).divide(quantity, 2, RoundingMode.FLOOR));
             userCoinDTO.setGainLoss(coin.getCost().multiply(quantity).subtract(total));
             userCoinDTO.setCurrentCost(coin.getCost());
         }
