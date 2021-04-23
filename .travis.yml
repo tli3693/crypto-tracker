@@ -4,6 +4,15 @@ node_js:
 
 jdk: openjdk16
 
+matrix:
+  include:
+    - jdk: openjdk16
+      before_install:
+        - rm "${JAVA_HOME}/lib/security/cacerts"
+        - ln -s /etc/ssl/certs/java/cacerts "${JAVA_HOME}/lib/security/cacerts"
+  allow_failures:
+    - jdk: openjdk16
+
 sudo: required
 
 services:
@@ -16,7 +25,6 @@ cache:
 
 before_install:
   - chmod +x mvnw
-  - jdk_switcher use openjdk16
 
 script:
   - ./mvnw -Pprod clean package -DskipTests
