@@ -1,6 +1,8 @@
 language: node_js
 node_js:
   - '14.0'
+jdk:
+  - openjdk11
 
 sudo: required
 

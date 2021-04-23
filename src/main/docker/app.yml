@@ -11,6 +11,7 @@ services:
       - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
       - SPRING_DATA_MONGODB_URI=mongodb://cryptotracker-mongodb:27017
       - SPRING_DATA_MONGODB_DATABASE=cryptoTracker
+      - COINMARKETCAP_APIKEY=${COINMARKETCAP_APIKEY}
       - JHIPSTER_SLEEP=30 # gives time for other services to boot before the application
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix
