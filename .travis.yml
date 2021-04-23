@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-- '14.0'
+  - '14.0'
 
 sudo: required
 
@@ -15,12 +15,17 @@ cache:
     - $HOME/.m2
 
 before_install:
-- sudo rm /usr/local/bin/docker-compose
-- curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-- chmod +x docker-compose
-- sudo mv docker-compose /usr/local/bin
-- chmod +x mvnw
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  - chmod +x mvnw
 
 script:
-- ./mvnw -Pprod verify jib:dockerBuild -DskipTests
-- docker-compose -f src/main/docker/app.yml up -d
+  - ./mvnw -Pprod verify jib:dockerBuild -DskipTests
+  - docker-compose -f src/main/docker/app.yml up -d
+
+deploy:
+  provider: heroku
+  api_key: $HEROKU_API_KEY
+  app: troy-crypto-tracker
