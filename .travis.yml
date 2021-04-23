@@ -10,6 +10,7 @@ matrix:
       before_install:
         - sudo rm "${JAVA_HOME}/lib/security/cacerts"
         - sudo ln -s /etc/ssl/certs/java/cacerts "${JAVA_HOME}/lib/security/cacerts"
+        - chmod +x mvnw
   allow_failures:
     - jdk: openjdk16
 
@@ -27,6 +28,7 @@ before_install:
   - chmod +x mvnw
 
 script:
+  - chmod +x mvnw
   - ./mvnw -Pprod clean package -DskipTests
   - java -Dserver.port=$PORT -jar target/crypto-tracker-0.0.1-SNAPSHOT.jar
 
