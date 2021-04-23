@@ -1,11 +1,12 @@
 import axios from 'axios';
-import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction } from 'react-jhipster';
+import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction, IPayload, IPayloadResult } from 'react-jhipster';
 
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 import { IUser, defaultValue } from 'app/shared/model/user.model';
 import { ICoin } from 'app/shared/model/coin.model';
 import { IUserPortfolio } from 'app/shared/model/user.portfolio.model';
 
+export declare type ICrudPutCustomAction<T> = (data?: T, username?: string) => IPayload<T> | IPayloadResult<T>;
 export const ACTION_TYPES = {
   FETCH_ROLES: 'userManagement/FETCH_ROLES',
   FETCH_USERS: 'userManagement/FETCH_USERS',
@@ -168,7 +169,7 @@ export const getUserPortfolio: ICrudGetAllAction<IUserPortfolio> = username => {
   };
 };
 
-export const uploadCoinbaseProFile: ICrudPutAction<File> = (fileToUpload, username) => async dispatch => {
+export const uploadCoinbaseProFile: ICrudPutCustomAction<File> = (fileToUpload, username) => async dispatch => {
   const requestUrl = `${baseUrl}/users/${username}/upload/coinbase-pro`;
   const formData = new FormData();
   formData.append('name', fileToUpload.name);
