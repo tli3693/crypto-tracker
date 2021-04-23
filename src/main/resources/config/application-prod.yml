@@ -33,7 +33,7 @@ spring:
       enabled: false
   data:
     mongodb:
-      uri: mongodb://localhost:27017
+      uri: mongodb+srv://troy:${MONGODB_PASSWORD}@cluster0.nzkow.mongodb.net/cryptoTracker?retryWrites=true&w=majority
       database: cryptoTracker
   mail:
     host: localhost
@@ -113,6 +113,6 @@ jhipster:
 # application:
 coinmarketcap:
   url: https://pro-api.coinmarketcap.com/v1/cryptocurrency
-  apikey: xxxxxx
+  apikey: ${COINMARKETCAP_APIKEY}
   common:
     coins: BTC,ETH,LTC,ADA

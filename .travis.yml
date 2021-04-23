@@ -6,8 +6,6 @@ sudo: required
 
 services:
   - docker
-env:
-  - DOCKER_COMPOSE_VERSION=1.29.0
 cache:
   directories:
     - node
@@ -15,15 +13,11 @@ cache:
     - $HOME/.m2
 
 before_install:
-  - sudo rm /usr/local/bin/docker-compose
-  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  - chmod +x docker-compose
-  - sudo mv docker-compose /usr/local/bin
   - chmod +x mvnw
 
 script:
-  - ./mvnw -Pprod verify jib:dockerBuild -DskipTests
-  - docker-compose -f src/main/docker/app.yml up -d
+  - ./mvnw -Pprod clean package -DskipTests
+  - java -Dserver.port=$PORT -jar target/crypto-tracker-0.0.1-SNAPSHOT.jar
 
 deploy:
   provider: heroku
