@@ -32,5 +32,3 @@ deploy:
   api_key: $HEROKU_API_KEY
   on: main
   app: troy-crypto-tracker
-
-
