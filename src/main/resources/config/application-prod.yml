@@ -33,7 +33,7 @@ spring:
       enabled: false
   data:
     mongodb:
-      uri: mongodb+srv://troy:${MONGODB_PASSWORD}@cluster0.nzkow.mongodb.net/cryptoTracker?retryWrites=true&w=majority
+      uri: mongodb+srv://troy:${MONGODB_PASSWORD}@cluster0.nzkow.mongodb.net/cryptoTracker?ssl=true&sslInvalidHostNameAllowed=true
       database: cryptoTracker
   mail:
     host: localhost
