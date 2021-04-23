@@ -2,6 +2,8 @@ language: node_js
 node_js:
   - '14.0'
 
+jdk: openjdk16
+
 sudo: required
 
 services:
@@ -14,6 +16,7 @@ cache:
 
 before_install:
   - chmod +x mvnw
+  - jdk_switcher use openjdk16
 
 script:
   - ./mvnw -Pprod clean package -DskipTests
