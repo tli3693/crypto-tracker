@@ -69,7 +69,7 @@ public class CoinController {
     @GetMapping("/users/{username}/portfolio")
     public UserPortfolio getUserPortfolio(@PathVariable String username) {
         UserPortfolio userPortfolio = new UserPortfolio();
-        List<UserCoinDTO> userCoins = userCoinService.getUserPortfolio(username);
+        List<UserCoinDTO> userCoins = userCoinService.getUserCoins(username);
         userPortfolio.setUserCoins(userCoins);
         userPortfolio.setPortfolioTotal(
             userCoins

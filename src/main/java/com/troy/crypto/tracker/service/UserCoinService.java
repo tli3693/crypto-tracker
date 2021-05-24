@@ -45,7 +45,7 @@ public class UserCoinService {
         return userCoinRepository.findByUsername(username);
     }
 
-    public List<UserCoinDTO> getUserPortfolio(String username) {
+    public List<UserCoinDTO> getUserCoins(String username) {
         List<UserCoinDTO> userCoinDTOS = new ArrayList<>();
         List<UserCoin> userCoins = findByUsername(username);
         List<String> coinSymbols = userCoins.stream().map(UserCoin::getCoinSymbol).distinct().collect(Collectors.toList());

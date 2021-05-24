@@ -1,12 +1,14 @@
 package com.troy.crypto.tracker.service.dto;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 public class UserPortfolio {
 
     private BigDecimal portfolioTotal;
     private BigDecimal portfolioTotalGainLoss;
+    private BigDecimal portfolioTotalGainLossPercentage;
     private List<UserCoinDTO> userCoins;
 
     public List<UserCoinDTO> getUserCoins() {
@@ -31,5 +33,11 @@ public class UserPortfolio {
 
     public void setPortfolioTotalGainLoss(BigDecimal portfolioTotalGainLoss) {
         this.portfolioTotalGainLoss = portfolioTotalGainLoss;
+    }
+
+    public BigDecimal getPortfolioTotalGainLossPercentage() {
+        BigDecimal originalSpent = portfolioTotal.subtract(portfolioTotalGainLoss);
+        portfolioTotalGainLossPercentage = portfolioTotalGainLoss.divide(originalSpent, 4, RoundingMode.FLOOR);
+        return portfolioTotalGainLossPercentage;
     }
 }

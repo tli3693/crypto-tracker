@@ -82,6 +82,16 @@ export const Home = (props: IHomeProp) => {
                       decimalScale={2}
                       className={portfolio.portfolioTotalGainLoss > 0 ? 'text-success' : 'text-danger'}
                     />
+                    /
+                    <NumberFormat
+                      value={portfolio.portfolioTotalGainLossPercentage * 100}
+                      displayType={'text'}
+                      thousandSeparator={true}
+                      prefix={portfolio.portfolioTotalGainLossPercentage > 0 ? '+' : ''}
+                      suffix={'%'}
+                      decimalScale={2}
+                      className={portfolio.portfolioTotalGainLossPercentage > 0 ? 'text-success' : 'text-danger'}
+                    />
                     )
                   </span>
                 ) : (
