@@ -18,7 +18,7 @@ jobs:
           
           if [[ "$branch_name" =~ $dev_regex ]]; then
             echo "Branch name matches the first regex pattern."
-            if [[ "$target_branch" != "dev" ]]; then
+            if [[ "$target_branch" != "main" ]]; then
               echo "but doesn't match target branch"
               exit 1
             fi
